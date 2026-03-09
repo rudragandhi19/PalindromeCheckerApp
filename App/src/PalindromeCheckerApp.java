@@ -17,8 +17,5 @@ public class PalindromeCheckerApp {
         System.out.println("Ready to check palindromes...");
         System.out.println("---------------------------------");
 
-        // Program will continue to the next use case
-        // (Palindrome checking logic will go here later)
-
     }
 }
