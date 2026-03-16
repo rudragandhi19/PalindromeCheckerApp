@@ -1,11 +1,9 @@
 import java.util.Stack;
 
-// Class responsible only for palindrome checking
-class PalindromeChecker {
+public class PalindromeCheckerApp {
 
-    // Public method to check palindrome
+    // Method to check palindrome
     public boolean checkPalindrome(String text) {
-
         // Internal data structure: Stack
         Stack<Character> stack = new Stack<>();
 
@@ -23,20 +21,15 @@ class PalindromeChecker {
 
         return true;
     }
-}
-
-// Main application class
-public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
-
         String text = "madam";
 
-        // Create object of PalindromeChecker
-        PalindromeChecker checker = new PalindromeChecker();
+        // Create object of the same class
+        PalindromeCheckerApp app = new PalindromeCheckerApp();
 
         // Call method
-        boolean result = checker.checkPalindrome(text);
+        boolean result = app.checkPalindrome(text);
 
         // Display result
         if (result) {
