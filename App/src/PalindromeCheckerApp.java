@@ -1,35 +1,73 @@
+import java.util.Stack;
+import java.util.Deque;
+import java.util.ArrayDeque;
+
 public class PalindromeCheckerApp {
 
-    public static void main(String[] args) {
+    // Strategy interface
+    interface PalindromeStrategy {
+        boolean isPalindrome(String text);
+    }
 
-        // Original string
-        String text = "Madam In Eden Im Adam";
-
-        // Normalize the string (remove spaces and convert to lowercase)
-        String normalized = text.replaceAll("\\s+", "").toLowerCase();
-
-        // Convert to character array
-        char[] characters = normalized.toCharArray();
-
-        int start = 0;
-        int end = characters.length - 1;
-        boolean isPalindrome = true;
-
-        // Compare characters from both ends
-        while (start < end) {
-            if (characters[start] != characters[end]) {
-                isPalindrome = false;
-                break;
+    // Stack-based strategy
+    static class StackStrategy implements PalindromeStrategy {
+        @Override
+        public boolean isPalindrome(String text) {
+            Stack<Character> stack = new Stack<>();
+            for (char ch : text.toCharArray()) {
+                stack.push(ch);
             }
-            start++;
-            end--;
+            for (char ch : text.toCharArray()) {
+                if (ch != stack.pop()) {
+                    return false;
+                }
+            }
+            return true;
         }
+    }
 
-        // Display result
-        if (isPalindrome) {
-            System.out.println("The string \"" + text + "\" is a palindrome (ignoring spaces and case).");
-        } else {
-            System.out.println("The string \"" + text + "\" is not a palindrome.");
+    // Deque-based strategy
+    static class DequeStrategy implements PalindromeStrategy {
+        @Override
+        public boolean isPalindrome(String text) {
+            Deque<Character> deque = new ArrayDeque<>();
+            for (char ch : text.toCharArray()) {
+                deque.addLast(ch);
+            }
+            while (deque.size() > 1) {
+                if (deque.removeFirst() != deque.removeLast()) {
+                    return false;
+                }
+            }
+            return true;
         }
+    }
+
+    // Context to use selected strategy
+    private PalindromeStrategy strategy;
+
+    public void setStrategy(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public boolean check(String text) {
+        if (strategy == null) {
+            throw new IllegalStateException("PalindromeStrategy not set!");
+        }
+        return strategy.isPalindrome(text);
+    }
+
+    public static void main(String[] args) {
+        String text = "madam";
+
+        PalindromeCheckerApp checkerApp = new PalindromeCheckerApp();
+
+        // Use Stack strategy
+        checkerApp.setStrategy(new StackStrategy());
+        System.out.println("Using StackStrategy: " + (checkerApp.check(text) ? "Palindrome" : "Not Palindrome"));
+
+        // Use Deque strategy
+        checkerApp.setStrategy(new DequeStrategy());
+        System.out.println("Using DequeStrategy: " + (checkerApp.check(text) ? "Palindrome" : "Not Palindrome"));
     }
 }
