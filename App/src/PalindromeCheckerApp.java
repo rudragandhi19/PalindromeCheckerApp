@@ -1,28 +1,42 @@
-public class PalindromeCheckerApp {
+import java.util.Stack;
 
-    // Recursive method to check palindrome
-    public static boolean isPalindrome(String text, int start, int end) {
+// Class responsible only for palindrome checking
+class PalindromeChecker {
 
-        // Base condition
-        if (start >= end) {
-            return true;
+    // Public method to check palindrome
+    public boolean checkPalindrome(String text) {
+
+        // Internal data structure: Stack
+        Stack<Character> stack = new Stack<>();
+
+        // Push characters into stack
+        for (int i = 0; i < text.length(); i++) {
+            stack.push(text.charAt(i));
         }
 
-        // Compare start and end characters
-        if (text.charAt(start) != text.charAt(end)) {
-            return false;
+        // Compare characters with stack pop
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) != stack.pop()) {
+                return false;
+            }
         }
 
-        // Recursive call
-        return isPalindrome(text, start + 1, end - 1);
+        return true;
     }
+}
+
+// Main application class
+public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         String text = "madam";
 
-        // Call recursive function
-        boolean result = isPalindrome(text, 0, text.length() - 1);
+        // Create object of PalindromeChecker
+        PalindromeChecker checker = new PalindromeChecker();
+
+        // Call method
+        boolean result = checker.checkPalindrome(text);
 
         // Display result
         if (result) {
